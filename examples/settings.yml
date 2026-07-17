@@ -1,0 +1,11 @@
+default_version: 1.0.0
+sources:
+  aumc: {dataset: aumc, version: "1.0"}
+  eicu: {dataset: eicu-crd, version: "2.0"}
+  eicu_demo: {dataset: eicu-demo, version: "2.0"}
+  hirid: {dataset: hirid, version: "1.1.1"}
+  miiv: {dataset: mimic-iv, version: "3.1"}
+  mimic: {dataset: mimic-iii, version: "1.4"}
+  mimic_demo: {dataset: mimic-demo, version: "1.4"}
+  nwicu: {dataset: nwicu, version: "0.1.0"}
+  sic: {dataset: sic, version: "1.0.6"}
