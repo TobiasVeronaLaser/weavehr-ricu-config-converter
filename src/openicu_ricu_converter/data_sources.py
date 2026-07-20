@@ -9,6 +9,8 @@ from typing import Any
 
 import yaml
 
+from .settings import ConverterSettings
+
 SPEC_TO_TYPE = {
     "col_integer": "int64", "col_double": "float64", "col_number": "float64",
     "col_logical": "bool", "col_character": "string", "col_datetime": "datetime",
@@ -82,21 +84,27 @@ def build_extraction_files(
     data_sources: list[dict[str, Any]],
     *,
     sources: list[str],
-    version: str,
+    settings: ConverterSettings,
 ) -> list[ExtractionFile]:
     out: list[ExtractionFile] = []
     by_name = {src.get("name"): src for src in data_sources}
     if "nwicu" not in by_name and "miiv" in by_name:
         by_name["nwicu"] = copy.deepcopy(by_name["miiv"])
         by_name["nwicu"]["name"] = "nwicu"
-    aliases = {"miiv": "mimic-iv", "eicu": "eicu-crd", "eicu_demo": "eicu-demo", "mimic_demo": "mimic-demo"}
     for name in sources:
         if name not in by_name:
             raise KeyError(f"RICU source not found: {name}")
+        target = settings.source_target(name)
+        if target is None:
+            raise KeyError(
+                f"No target dataset/version configured for RICU source: {name}"
+            )
         source = by_name[name]
         for table_name, table in sorted((source.get("tables") or {}).items()):
-            dataset_name = aliases.get(name, name)
-            rel = f"datasets/{dataset_name}/{version}/tables/{table_name}.yml"
+            rel = (
+                f"datasets/{target.dataset}/{target.version}/tables/"
+                f"{table_name}.yml"
+            )
             content = infer_table_config(table_name, table, source)
             out.append(ExtractionFile(rel, content, "generated"))
     return out

@@ -58,12 +58,11 @@ openicu-ricu-convert \
   --data-sources examples/input/data-sources.json \
   --settings examples/settings.yml \
   --output-config generated/configs \
-  --version generated \
   --source aumc eicu eicu_demo hirid miiv mimic mimic_demo nwicu sic \
   --overwrite
 ```
 
-For a production regeneration, set `--version` to the actual target dataset version and normally run datasets separately. That keeps output paths aligned with OpenICU's `configs/datasets/<dataset>/<version>/` layout.
+Dataset names and versions are read from `settings.yml`. Concept mappings and extraction tables therefore always share the same `datasets/<dataset>/<version>/` directory.
 
 ## Python API
 
@@ -75,7 +74,6 @@ result = generate_project(
     data_sources="examples/input/data-sources.json",
     output_config="generated/nwicu",
     sources=["nwicu"],
-    version="0.1.0",
     settings="examples/settings.yml",
     overwrite=True,
 )
