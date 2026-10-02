@@ -1,4 +1,4 @@
-"""Map RICU concepts to OpenICU concept YAML dictionaries."""
+"""Map RICU concepts to WeavEHR concept YAML dictionaries."""
 
 from __future__ import annotations
 
@@ -17,8 +17,8 @@ from .naming import category_name, concept_name
 from .settings import ConverterSettings
 
 
-class RICUToOpenICUMapper:
-    """Convert loaded RICU concepts into OpenICU YAML payloads."""
+class RICUToWeavEHRMapper:
+    """Convert loaded RICU concepts into WeavEHR YAML payloads."""
 
     def __init__(
         self,
@@ -39,7 +39,7 @@ class RICUToOpenICUMapper:
         concept_keys: set[str] | None = None,
         include_derived: bool = False,
         complex_stubs: bool = False,
-        complex_transformer: str = "open_icu.concepts.ricu_transformers.UnsupportedRICUTransformer",
+        complex_transformer: str = "weavehr.concepts.ricu_transformers.UnsupportedRICUTransformer",
     ) -> list[GeneratedFile]:
         files: list[GeneratedFile] = []
 

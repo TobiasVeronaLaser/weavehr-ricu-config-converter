@@ -1,6 +1,6 @@
-from openicu_ricu_converter.loader import load_concept_dict
-from openicu_ricu_converter.mapper import RICUToOpenICUMapper
-from openicu_ricu_converter.settings import ConverterSettings
+from weavehr_ricu_converter.loader import load_concept_dict
+from weavehr_ricu_converter.mapper import RICUToWeavEHRMapper
+from weavehr_ricu_converter.settings import ConverterSettings
 
 
 def test_mapper_generates_mimic_dbp(tmp_path):
@@ -25,7 +25,7 @@ def test_mapper_generates_mimic_dbp(tmp_path):
     concepts = load_concept_dict(concept_dict)
     settings = ConverterSettings.with_defaults()
     settings.concept_names["dbp"] = "diastolic_blood_pressure"
-    mapper = RICUToOpenICUMapper(settings)
+    mapper = RICUToWeavEHRMapper(settings)
     files = mapper.build_files(concepts, sources=["mimic"])
 
     paths = {file.path for file in files}

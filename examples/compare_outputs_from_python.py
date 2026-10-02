@@ -5,16 +5,16 @@ Adjust paths before running.
 
 from pathlib import Path
 
-from openicu_ricu_converter.validation import (
+from weavehr_ricu_converter.validation import (
     compare_output_dirs,
     summarize_results,
     write_json_report,
     write_markdown_report,
 )
 
-OLD_OUTPUT = Path("/home/q039tl/OpenICU.example/output/project/workspace/concept-cur")
-NEW_OUTPUT = Path("/home/q039tl/OpenICU.example/output/project/workspace/concept")
-CONFIG_ROOT = Path("/home/q039tl/OpenICU.example/generated/config")
+OLD_OUTPUT = Path("/home/q039tl/WeavEHR.example/output/project/workspace/concept-cur")
+NEW_OUTPUT = Path("/home/q039tl/WeavEHR.example/output/project/workspace/concept")
+CONFIG_ROOT = Path("/home/q039tl/WeavEHR.example/generated/config")
 
 results = compare_output_dirs(
     old_root=OLD_OUTPUT,

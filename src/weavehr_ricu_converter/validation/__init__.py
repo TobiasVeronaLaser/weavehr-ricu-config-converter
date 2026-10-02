@@ -1,4 +1,4 @@
-"""Validation helpers for generated OpenICU concept configs and outputs."""
+"""Validation helpers for generated WeavEHR concept configs and outputs."""
 
 from .compare_outputs import (
     ConceptOutputDiff,

@@ -5,7 +5,7 @@ import yaml
 
 pl = pytest.importorskip("polars")
 
-from openicu_ricu_converter.validation.compare_outputs import (
+from weavehr_ricu_converter.validation.compare_outputs import (
     compare_output_dirs,
     extract_dependencies_from_dataset_concept_config,
     load_concept_config_index,

@@ -1,6 +1,6 @@
 """Known mappings for RICU recursive concepts.
 
-RICU calls these ``rec_cncpt``. OpenICU does not have a separate ``rec``
+RICU calls these ``rec_cncpt``. WeavEHR does not have a separate ``rec``
 concept type; simple formula-like recursive concepts can be represented as
 ``type: derived``. Recursive concepts that need time windows, gap logic,
 custom R callbacks, or multi-step clinical scoring should be emitted as
@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True)
 class DerivedRule:
-    """Declarative rule for one RICU rec_cncpt -> OpenICU derived concept."""
+    """Declarative rule for one RICU rec_cncpt -> WeavEHR derived concept."""
 
     ricu_key: str
     dependency_keys: tuple[str, ...]
@@ -34,7 +34,7 @@ class DerivedRule:
 
 
 # Conservative known rules. These are intentionally limited to concepts that
-# can be expressed with OpenICU's existing parse_expr DSL without custom Python.
+# can be expressed with WeavEHR's existing parse_expr DSL without custom Python.
 # Anything involving rolling windows, scores, ventilation intervals, infection
 # suspicion, or vasopressor duration is better treated as complex.
 KNOWN_DERIVED_RULES: dict[str, DerivedRule] = {
@@ -155,7 +155,7 @@ def concept_name_for_key(
     concepts: dict[str, RICUConcept],
     settings: "ConverterSettings",
 ) -> str:
-    """Resolve a RICU key to the OpenICU concept name used by this converter."""
+    """Resolve a RICU key to the WeavEHR concept name used by this converter."""
 
     if ricu_key in settings.concept_names:
         return settings.concept_names[ricu_key]
@@ -237,7 +237,7 @@ def build_complex_dataset_config(
             "ricu_callback": concept.callback,
             "ricu_dependencies": deps,
             "note": (
-                "Generated complex stub. Implement this transformer before running the OpenICU concept step "
+                "Generated complex stub. Implement this transformer before running the WeavEHR concept step "
                 "or keep complex stub generation disabled."
             ),
         },

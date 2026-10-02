@@ -1,4 +1,4 @@
-"""CLI entrypoint for comparing OpenICU concept output Parquets."""
+"""CLI entrypoint for comparing WeavEHR concept output Parquets."""
 
 from __future__ import annotations
 
@@ -15,8 +15,8 @@ from .compare_outputs import (
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="openicu-ricu-compare-outputs",
-        description="Compare old and new OpenICU concept output Parquet files.",
+        prog="weavehr-ricu-compare-outputs",
+        description="Compare old and new WeavEHR concept output Parquet files.",
     )
     parser.add_argument("--old", required=True, type=Path, help="Old concept output root.")
     parser.add_argument("--new", required=True, type=Path, help="New concept output root.")
@@ -25,7 +25,7 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=None,
         help=(
-            "Optional OpenICU config root. Enables concept type classification "
+            "Optional WeavEHR config root. Enables concept type classification "
             "and dependency checks for derived/complex concepts."
         ),
     )

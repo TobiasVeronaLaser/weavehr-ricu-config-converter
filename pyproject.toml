@@ -1,7 +1,7 @@
 [project]
-name = "openicu-ricu-converter"
+name = "weavehr-ricu-converter"
 version = "0.2.0"
-description = "Generate OpenICU extraction and concept configs from RICU JSON dictionaries."
+description = "Generate WeavEHR extraction and concept configs from RICU JSON dictionaries."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -11,8 +11,8 @@ dependencies = [
 ]
 
 [project.scripts]
-openicu-ricu-convert = "openicu_ricu_converter.cli:main"
-openicu-ricu-compare-outputs = "openicu_ricu_converter.validation.compare_cli:main"
+weavehr-ricu-convert = "weavehr_ricu_converter.cli:main"
+weavehr-ricu-compare-outputs = "weavehr_ricu_converter.validation.compare_cli:main"
 
 [tool.ruff]
 line-length = 100

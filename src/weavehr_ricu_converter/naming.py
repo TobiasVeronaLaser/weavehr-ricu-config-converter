@@ -1,4 +1,4 @@
-"""Naming helpers for generated OpenICU config names."""
+"""Naming helpers for generated WeavEHR config names."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ def snake_case(value: str) -> str:
     """Convert a human-readable RICU description into a safe config name.
 
     This keeps existing uppercase letters from descriptions such as ``GCS`` or
-    ``CO2`` because your current OpenICU config names also preserve some of
+    ``CO2`` because your current WeavEHR config names also preserve some of
     those forms.
     """
 
@@ -22,7 +22,7 @@ def snake_case(value: str) -> str:
 
 
 def concept_name(ricu_key: str, description: str | None, overrides: dict[str, str]) -> str:
-    """Return the OpenICU concept name for a RICU key."""
+    """Return the WeavEHR concept name for a RICU key."""
 
     if ricu_key in overrides:
         return overrides[ricu_key]

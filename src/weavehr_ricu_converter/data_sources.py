@@ -1,4 +1,4 @@
-"""Generate OpenICU extraction table configurations from RICU data sources."""
+"""Generate WeavEHR extraction table configurations from RICU data sources."""
 from __future__ import annotations
 
 import copy
@@ -49,7 +49,7 @@ def _path(files: Any) -> str:
 
 
 def infer_table_config(table_name: str, table: dict[str, Any], source: dict[str, Any]) -> dict[str, Any]:
-    """Create an OpenICU table configuration from RICU source metadata."""
+    """Create an WeavEHR table configuration from RICU source metadata."""
     defaults = table.get("defaults") if isinstance(table.get("defaults"), dict) else {}
     cols = table.get("cols") or {}
     result: dict[str, Any] = {

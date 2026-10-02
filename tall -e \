@@ -1,0 +1,188 @@
+[35mREADME.md[m[36m:[m[32m1[m[36m:[m# [1;31mWeavEHR[m RICU Config Converter
+[35mREADME.md[m[36m:[m[32m3[m[36m:[mPython project for reproducibly generating **[1;31mWeavEHR[m extraction table configs** and **[1;31mWeavEHR[m concept mapping configs** from RICU's `data-sources.json` and `concept-dict.json`.
+[35mREADME.md[m[36m:[m[32m5[m[36m:[mThe repository follows the same working style as `[1;31mweavehr[m-yaib`: the conversion logic lives in `src/`, and `notebooks/datasets/` contains one executable notebook per RICU dataset.
+[35mREADME.md[m[36m:[m[32m11[m[36m:[mreference an [1;31mWeavEHR[m checkout at runtime.
+[35mREADME.md[m[36m:[m[32m13[m[36m:[m[1;31mWeavEHR[m configurations serve only as a strict development baseline: regression
+[35mREADME.md[m[36m:[m[32m15[m[36m:[mitself therefore remains deterministic and independent of [1;31mWeavEHR[m.
+[35mREADME.md[m[36m:[m[32m24[m[36m:[msrc/[1;31mweavehr[m_ricu_converter/
+[35mREADME.md[m[36m:[m[32m56[m[36m:[m[1;31mweavehr[m-ricu-convert \
+[35mREADME.md[m[36m:[m[32m70[m[36m:[mfrom [1;31mweavehr[m_ricu_converter import generate_project
+[35mREADME.md[m[36m:[m[32m88[m[36m:[m  [1;31mWeavEHR[m configurations without introducing an [1;31mWeavEHR[m runtime dependency.
+[35mUSAGE.md[m[36m:[m[32m3[m[36m:[mThis project converts RICU `concept-dict.json` entries into [1;31mWeavEHR[m-style YAML config files.
+[35mUSAGE.md[m[36m:[m[32m7[m[36m:[m1. From the command line through `[1;31mweavehr[m-ricu-convert`.
+[35mUSAGE.md[m[36m:[m[32m13[m[36m:[mcd [1;31mweavehr[m_ricu_converter_project
+[35mUSAGE.md[m[36m:[m[32m29[m[36m:[m[1;31mweavehr[m-ricu-convert \
+[35mUSAGE.md[m[36m:[m[32m39[m[36m:[m[1;31mweavehr[m-ricu-convert \
+[35mUSAGE.md[m[36m:[m[32m50[m[36m:[m[1;31mweavehr[m-ricu-convert \
+[35mUSAGE.md[m[36m:[m[32m62[m[36m:[m[1;31mweavehr[m-ricu-convert \
+[35mUSAGE.md[m[36m:[m[32m74[m[36m:[m[1;31mweavehr[m-ricu-convert \
+[35mUSAGE.md[m[36m:[m[32m87[m[36m:[mfrom [1;31mweavehr[m_ricu_converter import build_generation_plan, write_generation_plan
+[35mUSAGE.md[m[36m:[m[32m115[m[36m:[mPROJECT = Path("/path/to/[1;31mweavehr[m_ricu_converter_project")
+[35mUSAGE.md[m[36m:[m[32m122[m[36m:[mfrom [1;31mweavehr[m_ricu_converter import build_generation_plan, write_generation_plan
+[35mUSAGE.md[m[36m:[m[32m167[m[36m:[mGenerated only as stubs when `--complex-stubs` is passed. These YAML files point to an `UnsupportedRICUTransformer` placeholder. They are intentionally not clinically executable until real [1;31mWeavEHR[m transformer implementations are written.
+[35mUSAGE.md[m[36m:[m[32m172[m[36m:[mConcept outputs**, not just the YAML configs. This is useful when you run [1;31mWeavEHR[m
+[35mUSAGE.md[m[36m:[m[32m178[m[36m:[m[1;31mweavehr[m-ricu-compare-outputs \
+[35mUSAGE.md[m[36m:[m[32m179[m[36m:[m  --old /home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept-cur \
+[35mUSAGE.md[m[36m:[m[32m180[m[36m:[m  --new /home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept \
+[35mUSAGE.md[m[36m:[m[32m188[m[36m:[m[1;31mweavehr[m-ricu-compare-outputs \
+[35mUSAGE.md[m[36m:[m[32m189[m[36m:[m  --old /home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept-cur \
+[35mUSAGE.md[m[36m:[m[32m190[m[36m:[m  --new /home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept \
+[35mUSAGE.md[m[36m:[m[32m200[m[36m:[m[1;31mweavehr[m-ricu-compare-outputs \
+[35mUSAGE.md[m[36m:[m[32m201[m[36m:[m  --old /home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept-cur \
+[35mUSAGE.md[m[36m:[m[32m202[m[36m:[m  --new /home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept \
+[35mUSAGE.md[m[36m:[m[32m213[m[36m:[m[1;31mweavehr[m-ricu-compare-outputs \
+[35mUSAGE.md[m[36m:[m[32m214[m[36m:[m  --old /home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept-cur \
+[35mUSAGE.md[m[36m:[m[32m215[m[36m:[m  --new /home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept \
+[35mUSAGE.md[m[36m:[m[32m223[m[36m:[m[1;31mweavehr[m-ricu-compare-outputs \
+[35mUSAGE.md[m[36m:[m[32m224[m[36m:[m  --old /home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept-cur \
+[35mUSAGE.md[m[36m:[m[32m225[m[36m:[m  --new /home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept \
+[35mUSAGE.md[m[36m:[m[32m231[m[36m:[mIf you pass the generated or active [1;31mWeavEHR[m config root, the comparator also
+[35mUSAGE.md[m[36m:[m[32m236[m[36m:[m[1;31mweavehr[m-ricu-compare-outputs \
+[35mUSAGE.md[m[36m:[m[32m237[m[36m:[m  --old /home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept-cur \
+[35mUSAGE.md[m[36m:[m[32m238[m[36m:[m  --new /home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept \
+[35mUSAGE.md[m[36m:[m[32m239[m[36m:[m  --config-root /home/q039tl/[1;31mWeavEHR[m.example/generated/config \
+[35mUSAGE.md[m[36m:[m[32m246[m[36m:[m[1;31mweavehr[m-ricu-compare-outputs \
+[35mUSAGE.md[m[36m:[m[32m247[m[36m:[m  --old /home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept-cur \
+[35mUSAGE.md[m[36m:[m[32m248[m[36m:[m  --new /home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept \
+[35mUSAGE.md[m[36m:[m[32m249[m[36m:[m  --config-root /home/q039tl/[1;31mWeavEHR[m.example/generated/config \
+[35mUSAGE.md[m[36m:[m[32m258[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.validation import (
+[35mUSAGE.md[m[36m:[m[32m298[m[36m:[m## Compatibility options for hand-written [1;31mWeavEHR[m configs
+[35mUSAGE.md[m[36m:[m[32m300[m[36m:[mThe converter defaults are conservative so generated simple configs stay close to existing hand-written [1;31mWeavEHR[m configs:
+[35mUSAGE.md[m[36m:[m[32m303[m[36m:[m[1;31mweavehr[m-ricu-convert \
+[35mUSAGE.md[m[36m:[m[32m312[m[36m:[m`--regex-prefix-mode none` emits RICU regex mappings as `code: (regex)`. It does **not** prepend `.*?`. Use `--regex-prefix-mode contains` only when the regex should match anywhere inside the [1;31mWeavEHR[m code string.
+[35mexamples/compare_outputs_from_python.py[m[36m:[m[32m8[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.validation import (
+[35mexamples/compare_outputs_from_python.py[m[36m:[m[32m15[m[36m:[mOLD_OUTPUT = Path("/home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept-cur")
+[35mexamples/compare_outputs_from_python.py[m[36m:[m[32m16[m[36m:[mNEW_OUTPUT = Path("/home/q039tl/[1;31mWeavEHR[m.example/output/project/workspace/concept")
+[35mexamples/compare_outputs_from_python.py[m[36m:[m[32m17[m[36m:[mCONFIG_ROOT = Path("/home/q039tl/[1;31mWeavEHR[m.example/generated/config")
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m8[m[36m:[m    "# Generate [1;31mWeavEHR[m concept YAML files from the RICU concept dictionary\n",
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m10[m[36m:[m    "This notebook generates [1;31mWeavEHR[m concept config files for these RICU source keys by default:\n",
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m35[m[36m:[m      "  CONVERTER_PROJECT: /home/q039tl/workspace/[1;31mweavehr[m_ricu_converter_project\n",
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m37[m[36m:[m      "  [1;31mWEAVEHR[m_CONFIG: /home/q039tl/workspace/[1;31mWeavEHR[m/config\n",
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m39[m[36m:[m      "  TARGET_[1;31mWEAVEHR[m_CONFIG: /home/q039tl/workspace/[1;31mWeavEHR[m.example/config\n"
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m69[m[36m:[m    "# Folder that contains: src/[1;31mweavehr[m_ricu_converter\n",
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m70[m[36m:[m    "CONVERTER_PROJECT_STR = \"/home/q039tl/workspace/[1;31mweavehr[m_ricu_converter_project\"\n",
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m75[m[36m:[m    "# Optional existing [1;31mWeavEHR[m config folder. This helps infer event names.\n",
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m76[m[36m:[m    "# Set to \"\" if you do not want to use an existing [1;31mWeavEHR[m config.\n",
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m130[m[36m:[m    "This uses `CONVERTER_PROJECT_STR` from the first code cell. The path must point to the folder containing `src/[1;31mweavehr[m_ricu_converter`.\n"
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m143[m[36m:[m      "Converter project: /home/q039tl/workspace/[1;31mweavehr[m_ricu_converter_project\n"
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m148[m[36m:[m    "if not (CONVERTER_PROJECT / \"src\" / \"[1;31mweavehr[m_ricu_converter\").is_dir():\n",
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m151[m[36m:[m    "        f\"src/[1;31mweavehr[m_ricu_converter, but got:\\n  {CONVERTER_PROJECT}\\n\\n\"\n",
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m157[m[36m:[m    "from [1;31mweavehr[m_ricu_converter import build_generation_plan, write_generation_plan\n",
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m158[m[36m:[m    "from [1;31mweavehr[m_ricu_converter.loader import load_concept_dict\n",
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m185[m[36m:[m      "[1;31mWeavEHR[m config for converter: /home/q039tl/workspace/[1;31mWeavEHR[m/config\n"
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m190[m[36m:[m    "# If the configured [1;31mWeavEHR[m config folder is missing, disable it explicitly.\n",
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m1103[m[36m:[m    "## 7. Optional: copy generated config into an [1;31mWeavEHR[m config folder\n",
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m1105[m[36m:[m    "Run this only if you really want to overwrite/copy generated files into another [1;31mWeavEHR[m config directory. The default cell is safe and does nothing."
+[35mexamples/generate_ricu_concepts.ipynb[m[36m:[m[32m1118[m[36m:[m      "COPY_TO_[1;31mWEAVEHR[m_CONFIG is False; nothing copied.\n"
+[35mexamples/notebook_usage.py[m[36m:[m[32m10[m[36m:[mPROJECT = Path("/path/to/[1;31mweavehr[m_ricu_converter_project")
+[35mexamples/notebook_usage.py[m[36m:[m[32m14[m[36m:[mfrom [1;31mweavehr[m_ricu_converter import build_generation_plan, write_generation_plan, convert
+[35mexamples/run_from_python.py[m[36m:[m[32m1[m[36m:[m"""Example: run the RICU -> [1;31mWeavEHR[m config converter from Python.
+[35mexamples/run_from_python.py[m[36m:[m[32m18[m[36m:[mfrom [1;31mweavehr[m_ricu_converter import convert
+[35mnotebooks/datasets/aumc.ipynb[m[36m:[m[32m9[m[36m:[m    "This notebook generates [1;31mWeavEHR[m extraction and concept configurations from the RICU JSON dictionaries. Existing [1;31mWeavEHR[m configs are supplied as the canonical reference: matching extraction files are copied exactly, while missing tables are generated conservatively and marked `review_required`.\n"
+[35mnotebooks/datasets/aumc.ipynb[m[36m:[m[32m19[m[36m:[m    "from [1;31mweavehr[m_ricu_converter import generate_project\n",
+[35mnotebooks/datasets/aumc.ipynb[m[36m:[m[32m80[m[36m:[m    "Files originating from an existing [1;31mWeavEHR[m configuration should be semantically identical. The comparison below ignores YAML formatting and compares parsed objects.\n"
+[35mnotebooks/datasets/aumc.ipynb[m[36m:[m[32m98[m[36m:[m   "display_name": "[1;31mweavehr[m-ricu-config-converter (3.13.14.final.0)",
+[35mnotebooks/datasets/eicu.ipynb[m[36m:[m[32m9[m[36m:[m    "This notebook generates [1;31mWeavEHR[m extraction and concept configurations from the RICU JSON dictionaries. Existing [1;31mWeavEHR[m configs are supplied as the canonical reference: matching extraction files are copied exactly, while missing tables are generated conservatively and marked `review_required`.\n"
+[35mnotebooks/datasets/eicu.ipynb[m[36m:[m[32m19[m[36m:[m    "from [1;31mweavehr[m_ricu_converter import generate_project\n",
+[35mnotebooks/datasets/eicu.ipynb[m[36m:[m[32m80[m[36m:[m    "Files originating from an existing [1;31mWeavEHR[m configuration should be semantically identical. The comparison below ignores YAML formatting and compares parsed objects.\n"
+[35mnotebooks/datasets/eicu.ipynb[m[36m:[m[32m98[m[36m:[m   "display_name": "[1;31mweavehr[m-ricu-config-converter (3.13.14.final.0)",
+[35mnotebooks/datasets/eicu_demo.ipynb[m[36m:[m[32m9[m[36m:[m    "This notebook generates [1;31mWeavEHR[m extraction and concept configurations from the RICU JSON dictionaries. Existing [1;31mWeavEHR[m configs are supplied as the canonical reference: matching extraction files are copied exactly, while missing tables are generated conservatively and marked `review_required`.\n"
+[35mnotebooks/datasets/eicu_demo.ipynb[m[36m:[m[32m19[m[36m:[m    "from [1;31mweavehr[m_ricu_converter import generate_project\n",
+[35mnotebooks/datasets/eicu_demo.ipynb[m[36m:[m[32m80[m[36m:[m    "Files originating from an existing [1;31mWeavEHR[m configuration should be semantically identical. The comparison below ignores YAML formatting and compares parsed objects.\n"
+[35mnotebooks/datasets/eicu_demo.ipynb[m[36m:[m[32m98[m[36m:[m   "display_name": "[1;31mweavehr[m-ricu-config-converter (3.13.14.final.0)",
+[35mnotebooks/datasets/hirid.ipynb[m[36m:[m[32m9[m[36m:[m    "This notebook generates [1;31mWeavEHR[m extraction and concept configurations from the RICU JSON dictionaries. Existing [1;31mWeavEHR[m configs are supplied as the canonical reference: matching extraction files are copied exactly, while missing tables are generated conservatively and marked `review_required`.\n"
+[35mnotebooks/datasets/hirid.ipynb[m[36m:[m[32m19[m[36m:[m    "from [1;31mweavehr[m_ricu_converter import generate_project\n",
+[35mnotebooks/datasets/hirid.ipynb[m[36m:[m[32m80[m[36m:[m    "Files originating from an existing [1;31mWeavEHR[m configuration should be semantically identical. The comparison below ignores YAML formatting and compares parsed objects.\n"
+[35mnotebooks/datasets/hirid.ipynb[m[36m:[m[32m98[m[36m:[m   "display_name": "[1;31mweavehr[m-ricu-config-converter (3.13.14.final.0)",
+[35mnotebooks/datasets/miiv.ipynb[m[36m:[m[32m9[m[36m:[m    "This notebook generates [1;31mWeavEHR[m extraction and concept configurations from the RICU JSON dictionaries. Existing [1;31mWeavEHR[m configs are supplied as the canonical reference: matching extraction files are copied exactly, while missing tables are generated conservatively and marked `review_required`.\n"
+[35mnotebooks/datasets/miiv.ipynb[m[36m:[m[32m19[m[36m:[m    "from [1;31mweavehr[m_ricu_converter import generate_project\n",
+[35mnotebooks/datasets/miiv.ipynb[m[36m:[m[32m80[m[36m:[m    "Files originating from an existing [1;31mWeavEHR[m configuration should be semantically identical. The comparison below ignores YAML formatting and compares parsed objects.\n"
+[35mnotebooks/datasets/miiv.ipynb[m[36m:[m[32m98[m[36m:[m   "display_name": "[1;31mweavehr[m-ricu-config-converter (3.13.14.final.0)",
+[35mnotebooks/datasets/mimic.ipynb[m[36m:[m[32m9[m[36m:[m    "This notebook generates [1;31mWeavEHR[m extraction and concept configurations from the RICU JSON dictionaries. Existing [1;31mWeavEHR[m configs are supplied as the canonical reference: matching extraction files are copied exactly, while missing tables are generated conservatively and marked `review_required`.\n"
+[35mnotebooks/datasets/mimic.ipynb[m[36m:[m[32m19[m[36m:[m    "from [1;31mweavehr[m_ricu_converter import generate_project\n",
+[35mnotebooks/datasets/mimic.ipynb[m[36m:[m[32m80[m[36m:[m    "Files originating from an existing [1;31mWeavEHR[m configuration should be semantically identical. The comparison below ignores YAML formatting and compares parsed objects.\n"
+[35mnotebooks/datasets/mimic.ipynb[m[36m:[m[32m98[m[36m:[m   "display_name": "[1;31mweavehr[m-ricu-config-converter (3.13.14.final.0)",
+[35mnotebooks/datasets/mimic_demo.ipynb[m[36m:[m[32m9[m[36m:[m    "This notebook generates [1;31mWeavEHR[m extraction and concept configurations from the RICU JSON dictionaries. Existing [1;31mWeavEHR[m configs are supplied as the canonical reference: matching extraction files are copied exactly, while missing tables are generated conservatively and marked `review_required`.\n"
+[35mnotebooks/datasets/mimic_demo.ipynb[m[36m:[m[32m19[m[36m:[m    "from [1;31mweavehr[m_ricu_converter import generate_project\n",
+[35mnotebooks/datasets/mimic_demo.ipynb[m[36m:[m[32m80[m[36m:[m    "Files originating from an existing [1;31mWeavEHR[m configuration should be semantically identical. The comparison below ignores YAML formatting and compares parsed objects.\n"
+[35mnotebooks/datasets/mimic_demo.ipynb[m[36m:[m[32m98[m[36m:[m   "display_name": "[1;31mweavehr[m-ricu-config-converter (3.13.14.final.0)",
+[35mnotebooks/datasets/nwicu.ipynb[m[36m:[m[32m9[m[36m:[m    "This notebook generates [1;31mWeavEHR[m extraction and concept configurations from the RICU JSON dictionaries. Existing [1;31mWeavEHR[m configs are supplied as the canonical reference: matching extraction files are copied exactly, while missing tables are generated conservatively and marked `review_required`.\n"
+[35mnotebooks/datasets/nwicu.ipynb[m[36m:[m[32m19[m[36m:[m    "from [1;31mweavehr[m_ricu_converter import generate_project\n",
+[35mnotebooks/datasets/nwicu.ipynb[m[36m:[m[32m80[m[36m:[m    "Files originating from an existing [1;31mWeavEHR[m configuration should be semantically identical. The comparison below ignores YAML formatting and compares parsed objects.\n"
+[35mnotebooks/datasets/nwicu.ipynb[m[36m:[m[32m98[m[36m:[m   "display_name": "[1;31mweavehr[m-ricu-config-converter (3.13.14.final.0)",
+[35mnotebooks/datasets/sic.ipynb[m[36m:[m[32m9[m[36m:[m    "This notebook generates [1;31mWeavEHR[m extraction and concept configurations from the RICU JSON dictionaries. Existing [1;31mWeavEHR[m configs are supplied as the canonical reference: matching extraction files are copied exactly, while missing tables are generated conservatively and marked `review_required`.\n"
+[35mnotebooks/datasets/sic.ipynb[m[36m:[m[32m19[m[36m:[m    "from [1;31mweavehr[m_ricu_converter import generate_project\n",
+[35mnotebooks/datasets/sic.ipynb[m[36m:[m[32m80[m[36m:[m    "Files originating from an existing [1;31mWeavEHR[m configuration should be semantically identical. The comparison below ignores YAML formatting and compares parsed objects.\n"
+[35mnotebooks/datasets/sic.ipynb[m[36m:[m[32m98[m[36m:[m   "display_name": "[1;31mweavehr[m-ricu-config-converter (3.13.14.final.0)",
+[35mpyproject.toml[m[36m:[m[32m2[m[36m:[mname = "[1;31mweavehr[m-ricu-converter"
+[35mpyproject.toml[m[36m:[m[32m4[m[36m:[mdescription = "Generate [1;31mWeavEHR[m extraction and concept configs from RICU JSON dictionaries."
+[35mpyproject.toml[m[36m:[m[32m14[m[36m:[m[1;31mweavehr[m-ricu-convert = "[1;31mweavehr[m_ricu_converter.cli:main"
+[35mpyproject.toml[m[36m:[m[32m15[m[36m:[m[1;31mweavehr[m-ricu-compare-outputs = "[1;31mweavehr[m_ricu_converter.validation.compare_cli:main"
+[35mscripts/compare_concept_outputs.py[m[36m:[m[32m2[m[36m:[m"""Convenience wrapper around `[1;31mweavehr[m_ricu_converter.validation.compare_cli`."""
+[35mscripts/compare_concept_outputs.py[m[36m:[m[32m4[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.validation.compare_cli import main
+[35msrc/weavehr_ricu_converter/__init__.py[m[36m:[m[32m1[m[36m:[m"""Convert RICU source and concept dictionaries to [1;31mWeavEHR[m configurations."""
+[35msrc/weavehr_ricu_converter/api.py[m[36m:[m[32m1[m[36m:[m"""Public Python API for the RICU -> [1;31mWeavEHR[m config converter.
+[35msrc/weavehr_ricu_converter/api.py[m[36m:[m[32m12[m[36m:[mfrom .mapper import RICUTo[1;31mWeavEHR[mMapper, unsupported_report
+[35msrc/weavehr_ricu_converter/api.py[m[36m:[m[32m15[m[36m:[mfrom .writer import [1;31mWeavEHR[mYAMLWriter
+[35msrc/weavehr_ricu_converter/api.py[m[36m:[m[32m36[m[36m:[m    complex_transformer: str = "[1;31mweavehr[m.concepts.ricu_transformers.UnsupportedRICUTransformer",
+[35msrc/weavehr_ricu_converter/api.py[m[36m:[m[32m52[m[36m:[m    mapper = RICUTo[1;31mWeavEHR[mMapper(
+[35msrc/weavehr_ricu_converter/api.py[m[36m:[m[32m75[m[36m:[m    """Write a generated plan to an [1;31mWeavEHR[m-style config directory."""
+[35msrc/weavehr_ricu_converter/api.py[m[36m:[m[32m77[m[36m:[m    writer = [1;31mWeavEHR[mYAMLWriter(output_config, overwrite=overwrite)
+[35msrc/weavehr_ricu_converter/api.py[m[36m:[m[32m94[m[36m:[m    complex_transformer: str = "[1;31mweavehr[m.concepts.ricu_transformers.UnsupportedRICUTransformer",
+[35msrc/weavehr_ricu_converter/cli.py[m[36m:[m[32m10[m[36m:[m    p = argparse.ArgumentParser(prog="[1;31mweavehr[m-ricu-convert")
+[35msrc/weavehr_ricu_converter/data_sources.py[m[36m:[m[32m1[m[36m:[m"""Generate [1;31mWeavEHR[m extraction table configurations from RICU data sources."""
+[35msrc/weavehr_ricu_converter/data_sources.py[m[36m:[m[32m52[m[36m:[m    """Create an [1;31mWeavEHR[m table configuration from RICU source metadata."""
+[35msrc/weavehr_ricu_converter/derived_rules.py[m[36m:[m[32m3[m[36m:[mRICU calls these ``rec_cncpt``. [1;31mWeavEHR[m does not have a separate ``rec``
+[35msrc/weavehr_ricu_converter/derived_rules.py[m[36m:[m[32m24[m[36m:[m    """Declarative rule for one RICU rec_cncpt -> [1;31mWeavEHR[m derived concept."""
+[35msrc/weavehr_ricu_converter/derived_rules.py[m[36m:[m[32m37[m[36m:[m# can be expressed with [1;31mWeavEHR[m's existing parse_expr DSL without custom Python.
+[35msrc/weavehr_ricu_converter/derived_rules.py[m[36m:[m[32m158[m[36m:[m    """Resolve a RICU key to the [1;31mWeavEHR[m concept name used by this converter."""
+[35msrc/weavehr_ricu_converter/derived_rules.py[m[36m:[m[32m240[m[36m:[m                "Generated complex stub. Implement this transformer before running the [1;31mWeavEHR[m concept step "
+[35msrc/weavehr_ricu_converter/mapper.py[m[36m:[m[32m1[m[36m:[m"""Map RICU concepts to [1;31mWeavEHR[m concept YAML dictionaries."""
+[35msrc/weavehr_ricu_converter/mapper.py[m[36m:[m[32m20[m[36m:[mclass RICUTo[1;31mWeavEHR[mMapper:
+[35msrc/weavehr_ricu_converter/mapper.py[m[36m:[m[32m21[m[36m:[m    """Convert loaded RICU concepts into [1;31mWeavEHR[m YAML payloads."""
+[35msrc/weavehr_ricu_converter/mapper.py[m[36m:[m[32m42[m[36m:[m        complex_transformer: str = "[1;31mweavehr[m.concepts.ricu_transformers.UnsupportedRICUTransformer",
+[35msrc/weavehr_ricu_converter/naming.py[m[36m:[m[32m1[m[36m:[m"""Naming helpers for generated [1;31mWeavEHR[m config names."""
+[35msrc/weavehr_ricu_converter/naming.py[m[36m:[m[32m12[m[36m:[m    ``CO2`` because your current [1;31mWeavEHR[m config names also preserve some of
+[35msrc/weavehr_ricu_converter/naming.py[m[36m:[m[32m25[m[36m:[m    """Return the [1;31mWeavEHR[m concept name for a RICU key."""
+[35msrc/weavehr_ricu_converter/settings.py[m[36m:[m[32m1[m[36m:[m"""Converter settings and [1;31mWeavEHR[m project introspection."""
+[35msrc/weavehr_ricu_converter/settings.py[m[36m:[m[32m28[m[36m:[m    # How RICU regex patterns are converted to [1;31mWeavEHR[m code patterns.
+[35msrc/weavehr_ricu_converter/settings.py[m[36m:[m[32m33[m[36m:[m    # "preserve" keeps [1;31mWeavEHR[m's extracted numeric_value/text_value columns.
+[35msrc/weavehr_ricu_converter/settings.py[m[36m:[m[32m155[m[36m:[m    """Infer event names from an existing [1;31mWeavEHR[m ``config`` directory.
+[35msrc/weavehr_ricu_converter/validation/__init__.py[m[36m:[m[32m1[m[36m:[m"""Validation helpers for generated [1;31mWeavEHR[m concept configs and outputs."""
+[35msrc/weavehr_ricu_converter/validation/compare_cli.py[m[36m:[m[32m1[m[36m:[m"""CLI entrypoint for comparing [1;31mWeavEHR[m concept output Parquets."""
+[35msrc/weavehr_ricu_converter/validation/compare_cli.py[m[36m:[m[32m18[m[36m:[m        prog="[1;31mweavehr[m-ricu-compare-outputs",
+[35msrc/weavehr_ricu_converter/validation/compare_cli.py[m[36m:[m[32m19[m[36m:[m        description="Compare old and new [1;31mWeavEHR[m concept output Parquet files.",
+[35msrc/weavehr_ricu_converter/validation/compare_cli.py[m[36m:[m[32m28[m[36m:[m            "Optional [1;31mWeavEHR[m config root. Enables concept type classification "
+[35msrc/weavehr_ricu_converter/validation/compare_outputs.py[m[36m:[m[32m1[m[36m:[m"""Compare result Concept Parquet outputs from two [1;31mWeavEHR[m runs.
+[35msrc/weavehr_ricu_converter/validation/compare_outputs.py[m[36m:[m[32m9[m[36m:[malso inspect [1;31mWeavEHR[m dataset concept YAML files and verify that required input
+[35msrc/weavehr_ricu_converter/validation/compare_outputs.py[m[36m:[m[32m169[m[36m:[m    Expected [1;31mWeavEHR[m layout:
+[35msrc/weavehr_ricu_converter/validation/compare_outputs.py[m[36m:[m[32m535[m[36m:[m    """Compare two [1;31mWeavEHR[m concept output directories.
+[35msrc/weavehr_ricu_converter/validation/compare_outputs.py[m[36m:[m[32m544[m[36m:[m        Optional [1;31mWeavEHR[m config directory. If supplied, report entries are
+[35msrc/weavehr_ricu_converter/writer.py[m[36m:[m[32m1[m[36m:[m"""Write generated [1;31mWeavEHR[m YAML files."""
+[35msrc/weavehr_ricu_converter/writer.py[m[36m:[m[32m15[m[36m:[mclass _[1;31mWeavEHR[mDumper(yaml.SafeDumper):
+[35msrc/weavehr_ricu_converter/writer.py[m[36m:[m[32m26[m[36m:[m    ones when multiple RICU concepts normalize to the same [1;31mWeavEHR[m concept name.
+[35msrc/weavehr_ricu_converter/writer.py[m[36m:[m[32m74[m[36m:[mclass [1;31mWeavEHR[mYAMLWriter:
+[35msrc/weavehr_ricu_converter/writer.py[m[36m:[m[32m93[m[36m:[m                    Dumper=_[1;31mWeavEHR[mDumper,
+[35msrc/weavehr_ricu_converter/writer.py[m[36m:[m[32m105[m[36m:[m            yaml.dump(report, f, Dumper=_[1;31mWeavEHR[mDumper, sort_keys=False, allow_unicode=True, width=120)
+[35mtemplates/weavehr/concepts/ricu_transformers.py[m[36m:[m[32m3[m[36m:[mCopy this file into your [1;31mWeavEHR[m checkout, for example:
+[35mtemplates/weavehr/concepts/ricu_transformers.py[m[36m:[m[32m5[m[36m:[m    [1;31mWeavEHR[m/src/[1;31mweavehr[m/concepts/ricu_transformers.py
+[35mtemplates/weavehr/concepts/ricu_transformers.py[m[36m:[m[32m8[m[36m:[m``[1;31mweavehr[m.concepts.ricu_transformers.UnsupportedRICUTransformer``. That class
+[35mtemplates/weavehr/concepts/ricu_transformers.py[m[36m:[m[32m22[m[36m:[m    [1;31mWeavEHR[m will instantiate complex transformers with
+[35mtests/test_derived.py[m[36m:[m[32m1[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.loader import load_concept_dict
+[35mtests/test_derived.py[m[36m:[m[32m2[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.mapper import RICUTo[1;31mWeavEHR[mMapper
+[35mtests/test_derived.py[m[36m:[m[32m3[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.settings import ConverterSettings
+[35mtests/test_derived.py[m[36m:[m[32m25[m[36m:[m    mapper = RICUTo[1;31mWeavEHR[mMapper(ConverterSettings.with_defaults())
+[35mtests/test_derived.py[m[36m:[m[32m53[m[36m:[m    mapper = RICUTo[1;31mWeavEHR[mMapper(ConverterSettings.with_defaults())
+[35mtests/test_mapper.py[m[36m:[m[32m1[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.loader import load_concept_dict
+[35mtests/test_mapper.py[m[36m:[m[32m2[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.mapper import RICUTo[1;31mWeavEHR[mMapper
+[35mtests/test_mapper.py[m[36m:[m[32m3[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.settings import ConverterSettings
+[35mtests/test_mapper.py[m[36m:[m[32m28[m[36m:[m    mapper = RICUTo[1;31mWeavEHR[mMapper(settings)
+[35mtests/test_mapping_options.py[m[36m:[m[32m1[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.loader import load_concept_dict
+[35mtests/test_mapping_options.py[m[36m:[m[32m2[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.mapper import RICUTo[1;31mWeavEHR[mMapper
+[35mtests/test_mapping_options.py[m[36m:[m[32m3[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.settings import ConverterSettings
+[35mtests/test_mapping_options.py[m[36m:[m[32m42[m[36m:[m    mapper = RICUTo[1;31mWeavEHR[mMapper(settings)
+[35mtests/test_naming.py[m[36m:[m[32m1[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.naming import snake_case
+[35mtests/test_project_targets.py[m[36m:[m[32m8[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.cli import build_parser
+[35mtests/test_project_targets.py[m[36m:[m[32m9[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.data_sources import build_extraction_files
+[35mtests/test_project_targets.py[m[36m:[m[32m10[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.settings import ConverterSettings
+[35mtests/test_validation_compare_outputs.py[m[36m:[m[32m8[m[36m:[mfrom [1;31mweavehr[m_ricu_converter.validation.compare_outputs import (

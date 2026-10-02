@@ -1,4 +1,4 @@
-"""Converter settings and OpenICU project introspection."""
+"""Converter settings and WeavEHR project introspection."""
 
 from __future__ import annotations
 
@@ -25,12 +25,12 @@ class ConverterSettings:
     table_aliases: dict[str, dict[str, str]] = field(default_factory=dict)
     event_names: dict[str, dict[str, list[str]]] = field(default_factory=dict)
     concept_names: dict[str, str] = field(default_factory=dict)
-    # How RICU regex patterns are converted to OpenICU code patterns.
+    # How RICU regex patterns are converted to WeavEHR code patterns.
     # "none" preserves the RICU regex as-is in parentheses.
     # "contains" prepends .*? so the regex may match anywhere in the code string.
     regex_prefix_mode: str = "none"
     # How logical RICU concepts with set_val(TRUE) are converted.
-    # "preserve" keeps OpenICU's extracted numeric_value/text_value columns.
+    # "preserve" keeps WeavEHR's extracted numeric_value/text_value columns.
     # "boolean" writes const(1)/const("true") for matching events.
     logical_columns_mode: str = "preserve"
     default_version: str = "1.0.0"
@@ -152,7 +152,7 @@ def _normalize_events(raw: dict[str, Any]) -> dict[str, dict[str, list[str]]]:
 
 
 def load_project_event_names(config_root: str | Path) -> dict[str, dict[str, list[str]]]:
-    """Infer event names from an existing OpenICU ``config`` directory.
+    """Infer event names from an existing WeavEHR ``config`` directory.
 
     The result is ``{dataset: {table: [event_name, ...]}}``. It is intentionally
     conservative and only reads YAML files under ``config/dataset/*/*/dataset``.

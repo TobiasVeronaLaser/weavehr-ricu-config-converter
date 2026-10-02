@@ -1,6 +1,6 @@
-from openicu_ricu_converter.loader import load_concept_dict
-from openicu_ricu_converter.mapper import RICUToOpenICUMapper
-from openicu_ricu_converter.settings import ConverterSettings
+from weavehr_ricu_converter.loader import load_concept_dict
+from weavehr_ricu_converter.mapper import RICUToWeavEHRMapper
+from weavehr_ricu_converter.settings import ConverterSettings
 
 
 def test_mapper_generates_known_derived_bmi(tmp_path):
@@ -22,7 +22,7 @@ def test_mapper_generates_known_derived_bmi(tmp_path):
         encoding="utf-8",
     )
     concepts = load_concept_dict(concept_dict)
-    mapper = RICUToOpenICUMapper(ConverterSettings.with_defaults())
+    mapper = RICUToWeavEHRMapper(ConverterSettings.with_defaults())
     files = mapper.build_files(concepts, sources=["mimic"], include_derived=True)
 
     generated = {file.path: file.content for file in files}
@@ -50,7 +50,7 @@ def test_mapper_generates_complex_stub_when_requested(tmp_path):
         encoding="utf-8",
     )
     concepts = load_concept_dict(concept_dict)
-    mapper = RICUToOpenICUMapper(ConverterSettings.with_defaults())
+    mapper = RICUToWeavEHRMapper(ConverterSettings.with_defaults())
     files = mapper.build_files(
         concepts,
         sources=["mimic"],

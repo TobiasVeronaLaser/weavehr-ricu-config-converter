@@ -1,18 +1,18 @@
-# OpenICU RICU Config Converter
+# WeavEHR RICU Config Converter
 
-Python project for reproducibly generating **OpenICU extraction table configs** and **OpenICU concept mapping configs** from RICU's `data-sources.json` and `concept-dict.json`.
+Python project for reproducibly generating **WeavEHR extraction table configs** and **WeavEHR concept mapping configs** from RICU's `data-sources.json` and `concept-dict.json`.
 
-The repository follows the same working style as `openicu-yaib`: the conversion logic lives in `src/`, and `notebooks/datasets/` contains one executable notebook per RICU dataset.
+The repository follows the same working style as `weavehr-yaib`: the conversion logic lives in `src/`, and `notebooks/datasets/` contains one executable notebook per RICU dataset.
 
 ## Design
 
 The converter generates all extraction and concept configurations directly from
 RICU's `data-sources.json` and `concept-dict.json`. It does not read, copy, or
-reference an OpenICU checkout at runtime.
+reference an WeavEHR checkout at runtime.
 
-OpenICU configurations serve only as a strict development baseline: regression
+WeavEHR configurations serve only as a strict development baseline: regression
 tests compare converter output with known expected YAML files. The application
-itself therefore remains deterministic and independent of OpenICU.
+itself therefore remains deterministic and independent of WeavEHR.
 
 Concept mappings are generated from the RICU concept dictionary. Known derived
 concepts are emitted as `type: derived`; unsupported recursive callbacks receive
@@ -21,7 +21,7 @@ explicit complex stubs and are listed in `ricu_unsupported.yml`.
 ## Repository structure
 
 ```text
-src/openicu_ricu_converter/
+src/weavehr_ricu_converter/
   data_sources.py       # extraction/table conversion
   mapper.py             # concept mapping conversion
   project.py            # complete generation pipeline
@@ -53,7 +53,7 @@ pip install -e '.[dev]'
 ## Generate all configs
 
 ```bash
-openicu-ricu-convert \
+weavehr-ricu-convert \
   --concept-dict examples/input/concept-dict.json \
   --data-sources examples/input/data-sources.json \
   --settings examples/settings.yml \
@@ -67,7 +67,7 @@ Dataset names and versions are read from `settings.yml`. Concept mappings and ex
 ## Python API
 
 ```python
-from openicu_ricu_converter import generate_project
+from weavehr_ricu_converter import generate_project
 
 result = generate_project(
     concept_dict="examples/input/concept-dict.json",
@@ -85,7 +85,7 @@ print(result)
 - Generation requires only RICU JSON inputs and converter settings.
 - Generated concept and extraction YAML is deterministic.
 - Regression fixtures can assert byte-level or semantic equality with expected
-  OpenICU configurations without introducing an OpenICU runtime dependency.
+  WeavEHR configurations without introducing an WeavEHR runtime dependency.
 - `generation_manifest.yml` records the generated file counts.
 - `ricu_unsupported.yml` records mappings that cannot be translated faithfully.
 

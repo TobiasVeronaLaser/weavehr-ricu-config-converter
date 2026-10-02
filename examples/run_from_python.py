@@ -1,4 +1,4 @@
-"""Example: run the RICU -> OpenICU config converter from Python.
+"""Example: run the RICU -> WeavEHR config converter from Python.
 
 Usage:
     python examples/run_from_python.py \
@@ -15,7 +15,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from openicu_ricu_converter import convert
+from weavehr_ricu_converter import convert
 
 
 def parse_args() -> argparse.Namespace:

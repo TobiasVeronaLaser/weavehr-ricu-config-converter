@@ -1,4 +1,4 @@
-"""Compare result Concept Parquet outputs from two OpenICU runs.
+"""Compare result Concept Parquet outputs from two WeavEHR runs.
 
 This module is intentionally independent from the RICU conversion logic. It can
 compare outputs generated from old hand-written configs with outputs generated
@@ -6,7 +6,7 @@ from RICU-derived configs.
 
 For simple concepts, a Parquet comparison is usually sufficient. For derived and
 complex concepts, the same output comparison still applies, but this module can
-also inspect OpenICU dataset concept YAML files and verify that required input
+also inspect WeavEHR dataset concept YAML files and verify that required input
 concept outputs exist.
 """
 
@@ -166,7 +166,7 @@ def extract_dependencies_from_dataset_concept_config(data: dict[str, Any]) -> li
 def load_concept_config_index(config_root: Path | None) -> dict[str, dict[str, Any]]:
     """Index dataset concept YAML files by concept folder/stem.
 
-    Expected OpenICU layout:
+    Expected WeavEHR layout:
     `config/dataset/<dataset>/<version>/concept/<concept>.yml`
 
     The returned dict maps concept name to metadata. If the same concept occurs
@@ -532,7 +532,7 @@ def compare_output_dirs(
     ignore_columns: list[str] | None = None,
     normalize_code: str | None = None,
 ) -> list[ConceptOutputDiff]:
-    """Compare two OpenICU concept output directories.
+    """Compare two WeavEHR concept output directories.
 
     Parameters
     ----------
@@ -541,7 +541,7 @@ def compare_output_dirs(
     key_columns:
         Optional row-alignment keys. Without keys, full rows are compared as sets.
     config_root:
-        Optional OpenICU config directory. If supplied, report entries are
+        Optional WeavEHR config directory. If supplied, report entries are
         enriched with `concept_type` and derived/complex dependency checks.
     concept_type_filter:
         Optional set like `{ "derived", "complex" }` to return only selected

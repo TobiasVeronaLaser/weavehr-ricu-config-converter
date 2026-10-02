@@ -7,11 +7,11 @@ Copy these cells into a Jupyter/IPython notebook.
 import sys
 from pathlib import Path
 
-PROJECT = Path("/path/to/openicu_ricu_converter_project")
+PROJECT = Path("/path/to/weavehr_ricu_converter_project")
 sys.path.insert(0, str(PROJECT / "src"))
 
 # Cell 2: imports
-from openicu_ricu_converter import build_generation_plan, write_generation_plan, convert
+from weavehr_ricu_converter import build_generation_plan, write_generation_plan, convert
 
 # Cell 3: configure paths
 concept_dict_path = Path("/path/to/concept-dict.json")

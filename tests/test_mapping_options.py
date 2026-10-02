@@ -1,6 +1,6 @@
-from openicu_ricu_converter.loader import load_concept_dict
-from openicu_ricu_converter.mapper import RICUToOpenICUMapper
-from openicu_ricu_converter.settings import ConverterSettings
+from weavehr_ricu_converter.loader import load_concept_dict
+from weavehr_ricu_converter.mapper import RICUToWeavEHRMapper
+from weavehr_ricu_converter.settings import ConverterSettings
 
 
 def _abx_files(tmp_path, *, regex_prefix_mode="none", logical_columns_mode="preserve"):
@@ -39,7 +39,7 @@ def _abx_files(tmp_path, *, regex_prefix_mode="none", logical_columns_mode="pres
     settings.concept_names["abx"] = "antibiotics"
     settings.regex_prefix_mode = regex_prefix_mode
     settings.logical_columns_mode = logical_columns_mode
-    mapper = RICUToOpenICUMapper(settings)
+    mapper = RICUToWeavEHRMapper(settings)
     files = mapper.build_files(concepts, sources=["mimic"])
     dataset_file = next(f for f in files if f.path.endswith("datasets/mimic-iv/3.1/mappings/antibiotics.yml"))
     return dataset_file.content

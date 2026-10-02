@@ -1,4 +1,4 @@
-"""Write generated OpenICU YAML files."""
+"""Write generated WeavEHR YAML files."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ import yaml
 from .models import GeneratedFile
 
 
-class _OpenICUDumper(yaml.SafeDumper):
+class _WeavEHRDumper(yaml.SafeDumper):
     """PyYAML dumper with list indentation matching hand-written YAML files."""
 
     def increase_indent(self, flow: bool = False, indentless: bool = False):  # type: ignore[override]
@@ -23,7 +23,7 @@ def merge_generated_files(files: list[GeneratedFile]) -> list[GeneratedFile]:
     """Merge compatible generated files with the same output path.
 
     This prevents later GeneratedFile objects from silently overwriting earlier
-    ones when multiple RICU concepts normalize to the same OpenICU concept name.
+    ones when multiple RICU concepts normalize to the same WeavEHR concept name.
     Dataset-specific simple configs are merged by concatenating their mappings.
     Identical global concept configs are kept once.
     Incompatible collisions raise an error.
@@ -71,7 +71,7 @@ def merge_generated_files(files: list[GeneratedFile]) -> list[GeneratedFile]:
     return list(merged.values())
 
 
-class OpenICUYAMLWriter:
+class WeavEHRYAMLWriter:
     def __init__(self, output_root: str | Path, *, overwrite: bool = False) -> None:
         self.output_root = Path(output_root)
         self.overwrite = overwrite
@@ -90,7 +90,7 @@ class OpenICUYAMLWriter:
                 yaml.dump(
                     generated.content,
                     f,
-                    Dumper=_OpenICUDumper,
+                    Dumper=_WeavEHRDumper,
                     sort_keys=False,
                     allow_unicode=True,
                     width=120,
@@ -102,5 +102,5 @@ class OpenICUYAMLWriter:
         path = self.output_root / rel_path
         path.parent.mkdir(parents=True, exist_ok=True)
         with path.open("w", encoding="utf-8") as f:
-            yaml.dump(report, f, Dumper=_OpenICUDumper, sort_keys=False, allow_unicode=True, width=120)
+            yaml.dump(report, f, Dumper=_WeavEHRDumper, sort_keys=False, allow_unicode=True, width=120)
         return path

@@ -7,7 +7,7 @@ from .project import generate_project
 
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="openicu-ricu-convert")
+    p = argparse.ArgumentParser(prog="weavehr-ricu-convert")
     p.add_argument("--concept-dict", required=True)
     p.add_argument("--data-sources", required=True)
     p.add_argument("--output-config", required=True)

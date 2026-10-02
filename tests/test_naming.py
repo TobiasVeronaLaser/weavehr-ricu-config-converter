@@ -1,4 +1,4 @@
-from openicu_ricu_converter.naming import snake_case
+from weavehr_ricu_converter.naming import snake_case
 
 
 def test_snake_case_keeps_useful_acronyms():

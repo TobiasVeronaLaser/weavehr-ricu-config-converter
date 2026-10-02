@@ -5,9 +5,9 @@ from pathlib import Path
 
 import yaml
 
-from openicu_ricu_converter.cli import build_parser
-from openicu_ricu_converter.data_sources import build_extraction_files
-from openicu_ricu_converter.settings import ConverterSettings
+from weavehr_ricu_converter.cli import build_parser
+from weavehr_ricu_converter.data_sources import build_extraction_files
+from weavehr_ricu_converter.settings import ConverterSettings
 
 
 def test_cli_has_no_version_option() -> None:

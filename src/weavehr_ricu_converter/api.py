@@ -1,4 +1,4 @@
-"""Public Python API for the RICU -> OpenICU config converter.
+"""Public Python API for the RICU -> WeavEHR config converter.
 
 This module mirrors the CLI workflow and is intended for scripts and notebooks.
 """
@@ -9,10 +9,10 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from .loader import load_concept_dict
-from .mapper import RICUToOpenICUMapper, unsupported_report
+from .mapper import RICUToWeavEHRMapper, unsupported_report
 from .models import GeneratedFile, UnsupportedItem
 from .settings import ConverterSettings
-from .writer import OpenICUYAMLWriter
+from .writer import WeavEHRYAMLWriter
 
 
 @dataclass(frozen=True)
@@ -33,7 +33,7 @@ def build_generation_plan(
     categories: list[str] | set[str] | None = None,
     include_derived: bool = False,
     complex_stubs: bool = False,
-    complex_transformer: str = "open_icu.concepts.ricu_transformers.UnsupportedRICUTransformer",
+    complex_transformer: str = "weavehr.concepts.ricu_transformers.UnsupportedRICUTransformer",
     regex_prefix_mode: str | None = None,
     logical_columns_mode: str | None = None,
 ) -> GenerationPlan:
@@ -49,7 +49,7 @@ def build_generation_plan(
         settings.logical_columns_mode = logical_columns_mode
 
     concept_dict = load_concept_dict(concept_dict_path)
-    mapper = RICUToOpenICUMapper(
+    mapper = RICUToWeavEHRMapper(
         settings,
     )
     files = mapper.build_files(
@@ -72,9 +72,9 @@ def write_generation_plan(
     overwrite: bool = False,
     report_path: str = "ricu_unsupported.yml",
 ) -> list[Path]:
-    """Write a generated plan to an OpenICU-style config directory."""
+    """Write a generated plan to an WeavEHR-style config directory."""
 
-    writer = OpenICUYAMLWriter(output_config, overwrite=overwrite)
+    writer = WeavEHRYAMLWriter(output_config, overwrite=overwrite)
     written = writer.write_files(plan.files)
     writer.write_report(plan.report, rel_path=report_path)
     return written
@@ -91,7 +91,7 @@ def convert(
     include_derived: bool = False,
     complex_stubs: bool = False,
     overwrite: bool = False,
-    complex_transformer: str = "open_icu.concepts.ricu_transformers.UnsupportedRICUTransformer",
+    complex_transformer: str = "weavehr.concepts.ricu_transformers.UnsupportedRICUTransformer",
     regex_prefix_mode: str | None = None,
     logical_columns_mode: str | None = None,
 ) -> GenerationPlan:
